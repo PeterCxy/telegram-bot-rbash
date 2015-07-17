@@ -27,9 +27,10 @@ exports.input = (cmd, msg, telegram, ..., server, config) ->
 
 	if cmd is 'bash'
 		bash = require './rbash'
-		bash.exec config.rbash, config.rbashpath, msg.text, (res, code) =>
-			if code is null
-				exit = 'Timed out.'
-			else
-				exit = "Exited with #{code}"
+		bash.exec config.rbash, msg.text, (res, code) =>
+			exit = if code is null then "Timed out." else "Exit with ${#code}"
+			# Trunctate the data here
+			t = res.split("\n")
+			t.length = 20
+			res = t.join("\n")
 			telegram.sendMessage msg.chat.id, "#{res}\n#{exit}", msg.message_id
