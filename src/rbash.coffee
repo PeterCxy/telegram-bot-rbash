@@ -28,7 +28,10 @@ exports.exec = (rbash, path, cmds, callback) ->
 		bash.on 'exit', (code) =>
 			callback opt, code
 
-		bash.stdin.write "#{cmds}\nexit 0\n"
+		# TODO
+		# make an configurable limited 'cat' command
+		# do not let it read anything outside its own limit
+		bash.stdin.write "readonly EDITOR\nreadonly PAGER\n#{cmds}\nexit 0\n"
 
 		# Maximum execution time is 500ms
 		setTimeout =>
