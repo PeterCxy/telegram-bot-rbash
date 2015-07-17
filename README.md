@@ -14,3 +14,5 @@ Then add two options in the config file of `telegram-bot-coffee`
 `rbashpath`: the seperate `$PATH` you set for the `rbash` shell
 
 The max execution time is limited to 500ms.
+
+PLEASE RUN THE BOT WITH `nobody` or other users without dangerous permissions!
