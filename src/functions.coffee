@@ -7,7 +7,7 @@ exports.setup = (telegram, ..., server, _) ->
 	[
 			cmd: 'bash'
 			args: '[exec|help]'
-			desc: 'exec: execute bash script. Max execution time is 500ms. help: print available commands'
+			desc: 'exec: execute bash script. Max execution time is 500ms. \nhelp: print available commands\n\'|\' and \'&\' are disallowed, please use \'-a\' and \'-o\' instead.'
 			num: 1
 			opt: 1
 			act: (msg, cmd) =>
