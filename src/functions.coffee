@@ -33,4 +33,8 @@ exports.input = (cmd, msg, telegram, ..., server, config) ->
 				exit = 'Timed out.'
 			else
 				exit = "Exited with #{code}"
+
+			if msg.chat.title? and (res.split '\n').length >= 10
+				res = 'Too long. Denying this output.'
+
 			telegram.sendMessage msg.chat.id, "#{res}\n#{exit}", msg.message_id
