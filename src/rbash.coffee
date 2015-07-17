@@ -1,8 +1,10 @@
 {spawn} = require 'child_process'
 
 exports.exec = (rbash, path, cmds, callback) ->
-	if (isBomb cmds)
+	if isBomb cmds
 		callback 'Potential fork bomb detected.', 23333
+	else if hasIO cmds
+		callback 'Potential I/O access denied', 23333
 	else
 
 		# NOTICE: Before using this
@@ -43,4 +45,10 @@ isBomb = (cmd) ->
 		true
 	else
 		# Should do more checks here
+		false
+	
+hasIO = (cmd) ->
+	if (contains cmd, '<') or (contains cmd, '/*')
+		true
+	else
 		false
