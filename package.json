@@ -1,0 +1,12 @@
+{
+	"name": "telegram-bot-rbash",
+	"version": "1.0.0",
+	"author": "PeterCxy",
+	"description": "Bash executor with rbash(restricted bash) for telegram-bot-coffee",
+	"license": "GPL-3.0.0",
+	"homepage": "https://github.com/PeterCxy/telegram-bot-rbash",
+	"dependencies": {
+		"telegram-bot-coffee": ">=1.0.0" 
+	},
+	"main": "./lib/functions"
+}
