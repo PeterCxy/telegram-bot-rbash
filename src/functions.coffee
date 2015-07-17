@@ -15,8 +15,11 @@ exports.setup = (telegram, ..., server, _) ->
 					# TODO
 					telegram.sendMessage msg.chat.id, 'help'
 				else
-					server.grabInput msg.chat.id, msg.from.id, pkg.name, 'bash'
-					telegram.sendMessage msg.chat.id, 'The Black Magic! Send me the script you want to execute.', msg.message_id
+					if msg.chat.title? and msg.chat.title.startsWith '#'
+						telegram.sendMessage msg.chat.id, 'bash disabled in this group.'
+					else
+						server.grabInput msg.chat.id, msg.from.id, pkg.name, 'bash'
+						telegram.sendMessage msg.chat.id, 'The Black Magic! Send me the script you want to execute.', msg.message_id
 	]
 
 exports.input = (cmd, msg, telegram, ..., server, config) ->
