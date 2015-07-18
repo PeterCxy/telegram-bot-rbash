@@ -47,14 +47,14 @@ exports.exec = (rcfg, cmds, callback) ->
 # key: string
 # Applys the default value on typeof mismatch.
 apply_default = (key) ->
-	key_expanded = key.split('.')
-	defval = get_prop(dcfg, key_expanded)
-	cfgval = get_prop(rcfg, key_expanded)
+	key_expanded = key.split '.'
+	defval = get_prop dcfg, key_expanded 
+	cfgval = get_prop rcfg, key_expanded
 	d_type = typeof defval
 	c_type = typeof cfgval
 	
 	if d_type != c_type
-		set_prop (key_expanded, defval)
+		set_prop key_expanded, defval
 		return
 
 	# if d_type == 'object'
@@ -65,10 +65,9 @@ apply_default = (key) ->
 set_prop = (key, val) ->
 	# Walk through the keys and do the assignment
 	t = undefined;
-	m = undefined;
 	p = key.pop()
 	while l.length
-		t = key[m = l.shift()] or (key[m] = new Object())
+		t = (key[l.shift()] || = new Object())
 	t[p] = val
 
 # key: array		
@@ -77,5 +76,8 @@ get_prop = (obj, key) ->
 	m = undefined;
 	p = key.pop()
 	while l.length
-		t = key[m = l.shift()] or return
+		if typeof key[m = l.shift()] != 'undefined'
+			t = key[m]
+		else
+			return
 	t[p]
