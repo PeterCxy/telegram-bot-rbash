@@ -43,7 +43,7 @@ contains = (str, sub) ->
 	(str.indexOf sub) > -1
 
 isBomb = (cmd) ->
-	if (contains cmd, 'ulimit') or (contains cmd, '|') or (contains cmd, '&')
+	if (contains cmd, 'ulimit') or (contains cmd, '|') or (contains cmd, '&') or (contains cmd, '\\x7c') or (contains cmd, '\\x26')
 		console.log 'BOOM'
 		true
 	else
