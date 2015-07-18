@@ -53,9 +53,9 @@ apply_default = (key) ->
 		set_prop (key_expanded, defval)
 		return
 
-	if d_type == 'object'
-		defval.keys().foreach (k) ->
-			apply_default "${#key}.${#k}"
+	# if d_type == 'object'
+		# defval.keys().foreach (k) ->
+			# apply_default "${#key}.${#k}"
 
 # key: array
 set_prop = (key, val) ->
