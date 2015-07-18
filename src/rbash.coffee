@@ -9,13 +9,17 @@ exports.exec = (rcfg, cmds, callback) ->
 		spawn:				# Everything passed to spawn
 			cwd: '/tmp/botsh'	# Take it elsewhere
 			env:			# And a simple environment
-				'PATH': ''	# And yes, no PATH at all.
+				PATH: ''	# And yes, no PATH at all.
 		startup:			# Default string at startup -- too lazy to use rc.
 			". /etc/profile\n
 			readonly PAGER=cat EDITOR=true\n
+			returns(){ return $1; }
+			readonly -f returns
 			export PAGER EDITOR\n
-			ulimit(){ echo Fuck ya; }\n
-			readonly -fx ulimit"
+			ulimit -u 64\n
+			enable -n ulimit"
+		cleanup:			# End code
+			"_ret=$?; kill -9 $(jobs -rp); returns $_ret"
 	}
 
 	# ES6 big law good and screw you stupid coffeescript for loops!
@@ -32,7 +36,7 @@ exports.exec = (rcfg, cmds, callback) ->
 	bash.on 'exit', (code) =>
 		callback out, code
 
-	bash.stdin.write rcfg.startup + "\n#{cmds}\n"
+	bash.stdin.write "${#rcfg.startup}\n#{cmds}\n+${#rcfg.cleanup}\n"
 
 	# If time outs, kill.
 	setTimeout =>
