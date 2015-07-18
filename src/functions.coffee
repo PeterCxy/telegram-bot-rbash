@@ -27,6 +27,7 @@ exports.input = (cmd, msg, telegram, ..., server, config) ->
 
 	if cmd is 'bash'
 		bash = require './rbash'
+		config rbash ||= new Object();
 		bash.exec config.rbash, msg.text, (res, code) =>
 			exit = if code is null then "Timed out." else "Exit with ${#code}"
 			# Trunctate the data here
