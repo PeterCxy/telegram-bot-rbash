@@ -29,7 +29,9 @@ The object contains the following fields:
     * `PATH`: **String** The `$PATH`.
 	* `BASH_ENV`: **String** The path where bash would attempt to read an RC
 	  from. It's recommended to set it instead of `startup`, since it won't
-	  mess up with line number recording features like `$LINENO`.
+	  mess up with line number recording features like `$LINENO`.<br/>
+	  Additional improvements from it includes having same safety in forked
+	  `rbash` commands if `BASH_ENV` is `readonly`.
 * `startup`: **String** The startup string to add to beginning of stdin. It
   has to be non-empty (for a null one, use `':'`) and should not end with a
   semicolon `;`.
