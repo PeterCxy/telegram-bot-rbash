@@ -32,9 +32,8 @@ The object contains the following fields:
 	  mess up with line number recording features like `$LINENO`.<br/>
 	  Additional improvements from it includes having same safety in forked
 	  `rbash` commands if `BASH_ENV` is `readonly`.
-* `startup`: **String** The startup string to add to beginning of stdin. It
-  has to be non-empty (for a null one, use `':'`) and should not end with a
-  semicolon `;`.
+* `startup`: **String** The startup string to add to beginning of stdin, a.k.a.
+  **hard-coded rc**.
 * `cleanup`: **String** The cleanup string to pad to end of stdin.
 
 If you are interested in luking the whole thing, read `rbash.coffee` for
@@ -80,6 +79,7 @@ foo(){
 		fi
 	done
 	shift $((OPTIND-1))
+	
 	wrap foo "${ARGV[@]}" "$@"
 }
 ```

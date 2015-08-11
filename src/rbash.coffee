@@ -18,7 +18,7 @@ exports.exec = (rcfg, cmds, callback) ->
 			readonly -f returns
 			export PAGER EDITOR\n
 			ulimit -u 64\n
-			enable -n ulimit\n"
+			enable -n ulimit;"
 		cleanup:			# End code, kills all forked jobs.
 			"_ret=$?; kill -9 $(jobs -rp); returns $_ret"
 	}
@@ -37,7 +37,15 @@ exports.exec = (rcfg, cmds, callback) ->
 	bash.on 'exit', (code) =>
 		callback out, code
 
-	bash.stdin.write "${#rcfg.startup};#{cmds}\n+${#rcfg.cleanup}\n"
+	# Here we preprocess rcfg.startup. It's only a rough checking on syntax.
+	# If you use a polyfill, include it earlier!
+	if String.prototype.endsWith
+		if ! rcfg.startup.endsWith '\n;'	# Not ending with END COMMAND chars
+			rcfg.startup += ';'
+	else	# Brainless adding
+		rcfg.startup += '\n'			# Shall we echo $LINENO?
+
+	bash.stdin.write "#{rcfg.startup}#{cmds}\n+${#rcfg.cleanup}\n"
 
 	# If time outs, kill.
 	setTimeout =>
