@@ -10,6 +10,7 @@ exports.exec = (rcfg, cmds, callback) ->
 			cwd: '/tmp/botsh'	# Take it elsewhere
 			env:			# And a simple environment
 				PATH: ''	# And yes, no PATH at all.
+				BASH_ENV: ''	# Recommended way of giving startup. It can be a path to an RC.
 		startup:			# Default string at startup -- too lazy to use rc.
 			". /etc/profile\n
 			readonly PAGER=cat EDITOR=true\n
@@ -17,8 +18,8 @@ exports.exec = (rcfg, cmds, callback) ->
 			readonly -f returns
 			export PAGER EDITOR\n
 			ulimit -u 64\n
-			enable -n ulimit"
-		cleanup:			# End code
+			enable -n ulimit\n"
+		cleanup:			# End code, kills all forked jobs.
 			"_ret=$?; kill -9 $(jobs -rp); returns $_ret"
 	}
 
@@ -36,7 +37,7 @@ exports.exec = (rcfg, cmds, callback) ->
 	bash.on 'exit', (code) =>
 		callback out, code
 
-	bash.stdin.write "${#rcfg.startup}\n#{cmds}\n+${#rcfg.cleanup}\n"
+	bash.stdin.write "${#rcfg.startup};#{cmds}\n+${#rcfg.cleanup}\n"
 
 	# If time outs, kill.
 	setTimeout =>
