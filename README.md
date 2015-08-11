@@ -27,7 +27,12 @@ The object contains the following fields:
     read-only empty one or a 32Mib-tmpfs with cron scheduled to delete it.
   * `env`: **Object** Environmental Variables.
     * `PATH`: **String** The `$PATH`.
-* `startup`: **String** The startup string to add to beginning of stdin.
+	* `BASH_ENV`: **String** The path where bash would attempt to read an RC
+	  from. It's recommended to set it instead of `startup`, since it won't
+	  mess up with line number recording features like `$LINENO`.
+* `startup`: **String** The startup string to add to beginning of stdin. It
+  has to be non-empty (for a null one, use `':'`) and should not end with a
+  semicolon `;`.
 * `cleanup`: **String** The cleanup string to pad to end of stdin.
 
 If you are interested in luking the whole thing, read `rbash.coffee` for
